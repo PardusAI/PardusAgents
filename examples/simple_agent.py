@@ -15,7 +15,7 @@ def minus(a: int, b: int) -> int:
 async def main():
     agent = Agent(
         tools=[Tool(add), Tool(minus)],
-        models="z-ai/glm-4.5-air:free",
+        models="glm-4.5-air",
         PardusAPI="" #sugegst using export PARDUS_API_KEY="YOUR API KEY"
     )
     
