@@ -1,20 +1,30 @@
 import json
+import os 
 import httpx
 from ..tools import Tool
 from dataclasses import dataclass
 
-SERVER_URL = "http://localhost:8080"
+SERVER_URL = "https://pardusai.org"
 
 class Agent:
     def __init__(
         self,
         tools: list[Tool],
         models: str,
-        base_url: str = SERVER_URL
+        base_url: str = SERVER_URL,
+        PardusAPI: str = ""
     ):
+
+        if PardusAPI == "":
+            PardusAPI = os.getenv("PARDUS_API_KEY", "")
+        
+        if PardusAPI == "":
+            raise KeyError("Please enter pardus API key")
+
         self.tools = tools 
         self.models = models
         self.server_url = base_url
+        self.pardus_api_key = PardusAPI
         
         # Create a mapping of tool names to Tool objects for easy lookup
         self.tool_map = {tool.func.__name__: tool for tool in tools}
@@ -39,7 +49,10 @@ class Agent:
             response = await client.post(
                 f"{self.server_url}/chat",
                 json=payload,
-                headers={"Content-Type": "application/json"}
+                headers={
+                    "Content-Type": "application/json",
+                    "PARDUS-API-KEY": self.pardus_api_key
+                }
             )
             response.raise_for_status()
             result = response.json()
@@ -48,9 +61,12 @@ class Agent:
         tool_results = []
         text_content = ""
         
+        # Extract the response object if it's wrapped
+        response_data = result.get("response", result)
+        
         # Extract content and tool_calls from choices[0].message
-        if "choices" in result and len(result["choices"]) > 0:
-            message = result["choices"][0].get("message", {})
+        if "choices" in response_data and len(response_data["choices"]) > 0:
+            message = response_data["choices"][0].get("message", {})
             text_content = message.get("content", "")
             
             # Check for tool_calls in OpenAI format
