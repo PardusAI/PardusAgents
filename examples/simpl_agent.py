@@ -17,13 +17,13 @@ def minus(a: int, b: int) -> int:
 
 async def main():
     # Create tool objects
-    add_tool = Tool(add)
+    add_tool = Tool(add, {"a":"first parameter" , "b":"second parameters"})
     minus_tool = Tool(minus)
     
     # Create agent with tools
     agent = Agent(
         tools=[add_tool, minus_tool],
-        models="qwen3:4b"
+        models="minimax/minimax-m2:free"
     )
     
     # Test the agent

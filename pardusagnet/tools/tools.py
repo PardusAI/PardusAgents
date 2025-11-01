@@ -2,14 +2,16 @@ import inspect
 from docstring_parser import parse
 
 class Tool:
-    def __init__(self, func:callable):
+    def __init__(self, func:callable, description: dict[str, str]={}):
         self.func:callable = func
+        self.description = description
     
     def _get_schema(
         self,
-        descriptions: dict[str , str] = {},
         required: list[str] = []
     ):
+
+        descriptions = self.description
         sig = inspect.signature(self.func)
         all_params = list(sig.parameters.keys())
         

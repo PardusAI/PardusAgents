@@ -1,6 +1,8 @@
 import json
 import httpx
 from ..tools import Tool
+from dataclasses import dataclass
+
 SERVER_URL = "http://localhost:8080"
 
 class Agent:
@@ -8,10 +10,11 @@ class Agent:
         self,
         tools: list[Tool],
         models: str,
+        base_url: str = SERVER_URL
     ):
         self.tools = tools 
         self.models = models
-        self.server_url = SERVER_URL
+        self.server_url = base_url
         
         # Create a mapping of tool names to Tool objects for easy lookup
         self.tool_map = {tool.func.__name__: tool for tool in tools}
@@ -83,3 +86,9 @@ class Agent:
 
     def stream_run(self, input:str):
         pass
+
+# TODO: integrate with server
+@dataclass
+class Messages:
+    role: str
+    content: str    
