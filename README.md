@@ -4,6 +4,8 @@ A Python client library for building AI agents with tool-calling capabilities po
 
 ## Quick Start
 
+To get API key visit http://pardusai.org/ ! 
+
 ### Installation
 
 ```bash
@@ -31,7 +33,7 @@ async def main():
     agent = Agent(
         tools=[Tool(add), Tool(minus)],
         models="minimax/minimax-m2:free",
-        PardusAPI="pk_your_api_key_here"
+        PardusAPI="pk_your_api_key_here" # better export PARDUS_API_KEY="YOUR API KEY HERE"
     )
     
     result = await agent.run("Calculate 100 minus 42")
