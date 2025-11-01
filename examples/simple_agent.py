@@ -16,7 +16,7 @@ async def main():
     agent = Agent(
         tools=[Tool(add), Tool(minus)],
         models="z-ai/glm-4.5-air:free",
-        PardusAPI="pk_vomclUWDOUzVr-9Ce1qDkBL6fAeInolDFC1_YvWeW78="
+        PardusAPI="" #sugegst using export PARDUS_API_KEY="YOUR API KEY"
     )
     
     result = await agent.run("Calculate 100 minus 42")

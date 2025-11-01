@@ -4,7 +4,7 @@ import httpx
 from ..tools import Tool
 from dataclasses import dataclass
 
-SERVER_URL = "https://pardusai.org"
+SERVER_URL = "http://pardusai.org"
 
 class Agent:
     def __init__(
